@@ -5,6 +5,8 @@ import 'package:separate_api/app_controller.dart';
 import 'package:separate_api/product.dart';
 import 'package:separate_api/shop.dart';
 
+import 'checkout_module/infraestructure/checkout_provider.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 

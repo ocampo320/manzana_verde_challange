@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 
 import 'package:separate_api/app_controller.dart';
 
+import 'checkout_module/infraestructure/checkout_provider.dart';
+
 class Product {
   int? selected;
   // bool? isAGift;

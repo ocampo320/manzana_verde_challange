@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:separate_api/app_controller.dart';
 import 'package:separate_api/product.dart';
 
+import 'checkout_module/infraestructure/checkout_provider.dart';
+
 class ShopSection extends StatefulWidget {
   const ShopSection({Key? key}) : super(key: key);
 
