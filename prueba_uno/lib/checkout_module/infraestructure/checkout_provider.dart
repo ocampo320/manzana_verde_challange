@@ -12,7 +12,14 @@ class CatalogCartAndCheckout extends ChangeNotifier {
   double  _subTotal=0;
   double _couponDiscount=0;
   double _deliveryCost=0;
+  double _total=0;
 
+
+  double get total => _total;
+
+  set total(double value) {
+    _total = value;
+  }
 
   double get deliveryCost => _deliveryCost;
 
@@ -103,6 +110,12 @@ class CatalogCartAndCheckout extends ChangeNotifier {
     clearCart();
     coupon = null;
     Navigator.of(context).pop();
+  }
+
+  void calculateSubtotal(){
+    for (var element in products) {
+      subTotal=element.price!.toDouble();
+    }
   }
 
 

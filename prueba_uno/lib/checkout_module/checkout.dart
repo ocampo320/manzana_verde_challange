@@ -44,6 +44,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
       appBar: AppBar(title: const Text("Pago")),
       body: Consumer<CatalogCartAndCheckout>(
         builder: (context, cart, child) {
+          cart.calculateSubtotal();
           return SingleChildScrollView(
             controller: _sc,
             dragStartBehavior: DragStartBehavior.down,
@@ -70,9 +71,9 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 const Divider(height: 50),
                  SectionForValues(cart: cart),
                 const Divider(height: 50),
-                const TextForValueSection(
+                 TextForValueSection(
                   firstText: 'Total',
-                  secondText: 'calcular',
+                  secondText: cart.total.toString(),
                 ),
                 const Divider(height: 50),
                 PayButton(
