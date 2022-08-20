@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../app_controller.dart';
-import '../../product.dart';
-import '../../services.dart';
+import '../models/coupon.dart';
+import '../../product_module/product.dart';
+import 'services/services.dart';
+import '../../product_module/models/product.dart';
 
 
 class CatalogCartAndCheckout extends ChangeNotifier {

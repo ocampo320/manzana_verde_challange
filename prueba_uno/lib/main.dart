@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:separate_api/app_controller.dart';
+import 'package:separate_api/checkout_module/models/coupon.dart';
 import 'package:separate_api/checkout_module/checkout.dart';
-import 'package:separate_api/home.dart';
+import 'package:separate_api/home_module/home.dart';
 
 import 'checkout_module/infraestructure/checkout_provider.dart';
 

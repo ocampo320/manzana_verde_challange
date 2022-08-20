@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:separate_api/app_controller.dart';
-import 'package:separate_api/product.dart';
+import 'package:separate_api/checkout_module/models/coupon.dart';
+import 'package:separate_api/product_module/product.dart';
 
-import 'checkout_module/infraestructure/checkout_provider.dart';
+import '../../../checkout_module/infraestructure/checkout_provider.dart';
 
 class ShopSection extends StatefulWidget {
   const ShopSection({Key? key}) : super(key: key);
