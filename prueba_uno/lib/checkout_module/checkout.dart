@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'application/widgets/checkout_product_line.dart';
-import 'application/widgets/finder_product.dart';
+import 'application/widgets/finder_coupon.dart';
 import 'application/widgets/pay_button.dart';
 import 'application/widgets/section_for_values.dart';
 import 'application/widgets/text_error_coupon.dart';
@@ -51,7 +51,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
             padding: const EdgeInsets.all(20),
             child: Column(
               children: [
-                ///Lista de prodcutos.
+
                 Wrap(
                   runSpacing: 20,
                   children: cart.products
@@ -62,7 +62,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 ),
                 const Divider(height: 50),
                 cart.coupon == null
-                    ? FinderProduct(
+                    ? FinderCoupon(
                         cart: cart,
                       )
                     : TextErrorCoupon(

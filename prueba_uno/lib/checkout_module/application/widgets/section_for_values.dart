@@ -12,9 +12,20 @@ class SectionForValues extends StatelessWidget {
     return  Wrap(
       runSpacing: 15,
       children:  [
-        TextForValueSection(firstText:'Subtotal' ,secondText: cart.subTotal.toString(),),
-        TextForValueSection(firstText:'Descuento por cupón' ,secondText: cart.couponDiscount.toString(),),
-        TextForValueSection(firstText:'Costo de envío' ,secondText: cart.deliveryCost.toString(),)
+        TextForValueSection(
+          firstText: 'Subtotal',
+          secondText: cart.subTotal.toString(),
+        ),
+        TextForValueSection(
+          firstText: 'Descuento por cupón',
+          secondText: cart.couponPercentage != null
+              ? cart.couponPercentage.toString()
+              : cart.couponPermanent.toString(),
+        ),
+        TextForValueSection(
+          firstText: 'Costo de envío',
+          secondText: cart.deliveryCost.toString(),
+        )
       ],
     );
   }

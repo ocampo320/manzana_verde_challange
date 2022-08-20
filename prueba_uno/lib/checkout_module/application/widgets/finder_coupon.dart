@@ -1,14 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../infraestructure/checkout_input_controller.dart';
 import '../../infraestructure/checkout_provider.dart';
 
-class FinderProduct extends StatelessWidget {
-  const FinderProduct({Key? key, required this.cart}) : super(key: key);
+class FinderCoupon extends StatelessWidget {
+  const FinderCoupon({Key? key, required this.cart}) : super(key: key);
   final CatalogCartAndCheckout cart;
   @override
   Widget build(BuildContext context) {
-    final TextEditingController _tc = TextEditingController();
+
     final inputBorder = OutlineInputBorder(
       borderRadius: BorderRadius.circular(10),
       borderSide: BorderSide(
@@ -24,7 +25,7 @@ class FinderProduct extends StatelessWidget {
               child: SizedBox(
                 height: 50,
                 child: TextField(
-                  controller: _tc,
+                  controller:CheckoutInputController.tc,
                   decoration: InputDecoration(
                     hintText: "Cupón",
                     isDense: true,
@@ -43,7 +44,8 @@ class FinderProduct extends StatelessWidget {
               height: 50,
               child: ElevatedButton(
                 onPressed: () {
-                  cart.getCoupon(_tc.text);
+                  cart.getCoupon(CheckoutInputController.tc.text);
+                  cart. calculateTotal();
                 },
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
