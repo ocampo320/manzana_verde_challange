@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:separate_api/checkout_module/models/coupon.dart';
-import 'package:separate_api/product_module/product.dart';
+import 'package:separate_api/product_module/product_page.dart';
 
 import '../../../checkout_module/infraestructure/checkout_provider.dart';
 

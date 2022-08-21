@@ -12,7 +12,9 @@ class TextErrorCoupon extends StatelessWidget {
       children: [
         Expanded(
           child: Text(
-            "Cupón ${cart.coupon!.code} aplicado",
+            cart.error == 'No cumple con las condiciones'
+                ? "Cupón ${cart.coupon!.code} No cumple con las condiciones"
+                : "Cupón ${cart.coupon!.code} aplicado",
             style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w600,

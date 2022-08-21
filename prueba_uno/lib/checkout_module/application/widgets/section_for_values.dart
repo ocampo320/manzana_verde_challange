@@ -18,10 +18,8 @@ class SectionForValues extends StatelessWidget {
         ),
         TextForValueSection(
           firstText: 'Descuento por cupón',
-          secondText: cart.couponPercentage != null
-              ? cart.couponPercentage.toString()
-              : cart.couponPermanent.toString(),
-        ),
+          secondText:
+                cart.valueCoupon == null ? '0' : cart.valueCoupon.toString()),
         TextForValueSection(
           firstText: 'Costo de envío',
           secondText: cart.deliveryCost.toString(),

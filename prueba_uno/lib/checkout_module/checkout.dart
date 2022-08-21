@@ -40,11 +40,15 @@ class _CheckoutPageState extends State<CheckoutPage> {
 
   @override
   Widget build(BuildContext context) {
+
+
+
     return Scaffold(
       appBar: AppBar(title: const Text("Pago")),
       body: Consumer<CatalogCartAndCheckout>(
         builder: (context, cart, child) {
           cart.calculateSubtotal();
+          cart.calculateTotalOutCoupon();
           return SingleChildScrollView(
             controller: _sc,
             dragStartBehavior: DragStartBehavior.down,

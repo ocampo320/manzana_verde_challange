@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:separate_api/product_module/product.dart';
+import 'package:separate_api/product_module/product_page.dart';
 import 'package:separate_api/checkout_module/infraestructure/services/services.dart';
 class Coupon {
   Coupon({

@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../models/coupon.dart';
-import '../../product_module/product.dart';
+import '../../product_module/product_page.dart';
 import 'services/services.dart';
 import '../../product_module/models/product.dart';
 
@@ -11,12 +11,27 @@ class CatalogCartAndCheckout extends ChangeNotifier {
   List<Product> products = [];
   Coupon? coupon;
   int? sum;
-  String? error;
+  String _error='';
+
+  String  get error => _error;
+
+  set error(String value) {
+    _error = value;
+    notifyListeners();
+  }
+
   double? _subTotal;
   double _couponDiscount = 0;
   int _deliveryCost = 0;
-  double _total=0 ;
+  double? _total ;
   double  _couponPercentage=0;
+  dynamic _valueCoupon;
+
+  dynamic get valueCoupon => _valueCoupon;
+
+  set valueCoupon(dynamic value) {
+    _valueCoupon = value;
+  }
 
   double get couponPercentage => _couponPercentage;
 
@@ -32,23 +47,19 @@ class CatalogCartAndCheckout extends ChangeNotifier {
     _cupon = value;
   }
 
-  double? get couponPermanent => _couponPermanent;
 
+  dynamic _couponPermanent;
 
+  dynamic get couponPermanent => _couponPermanent;
 
-  set couponPermanent(double? value) {
+  set couponPermanent(dynamic value) {
     _couponPermanent = value;
   }
 
+  double ?get total => _total;
 
-
-  double? _couponPermanent;
-
-  double get total => _total;
-
-  set total(double value) {
+  set total(double? value) {
     _total = value;
-    notifyListeners();
   }
 
   int get deliveryCost => _deliveryCost;
@@ -112,25 +123,29 @@ class CatalogCartAndCheckout extends ChangeNotifier {
     }
   }
 
-  calculateTotal() {
-    calculateCoupon(subTotal!);
-    couponPercentage != null
-        ? total = (subTotal! - couponPercentage)
-
-        : total = (subTotal! - couponPermanent!);
+ void  calculateTotal() {
+    if(_cupon!=null){
+      calculateCoupon(subTotal!);
+    }
+  }
+  void calculateTotalOutCoupon(){
+    total=(subTotal);
   }
 
+
   getCoupon(String code) async {
-    error = null;
+    error = '';
     cupon= await Services().getCoupon(code);
     cupon = cupon["result"];
+   calculateTotal();
     if (cupon != null) {
       coupon = Coupon.fromJson(cupon);
-      notifyListeners();
+
     } else {
       error = "El cupón no existe";
-      notifyListeners();
+
     }
+
   }
 
   clearCart() {
@@ -163,23 +178,43 @@ class CatalogCartAndCheckout extends ChangeNotifier {
   ///PORCENTAJE
   ///FIJO
   void calculateCoupon(double subtotal) {
-    if (_cupon!=null) {
       switch (_cupon!['code']) {
         case 'PORCENTAJE':
           {
-            couponPercentage = ((subtotal * (_cupon!['payload']['value'] / 100))) ;
-
+            if(subtotal>=_cupon!['payload']['minimum']){
+              valueCoupon = ((subtotal * (_cupon!['payload']['value'] / 100))) ;
+              total = (subTotal! - valueCoupon);
+            }else{
+              error='No cumple con las condiciones';
+            }
           }
           break;
         case 'FIJO':
           {
-            couponPermanent = _cupon!['payload']['value'];
-
+            if(subtotal>=_cupon!['payload']['minimum']){
+              valueCoupon = _cupon!['payload']['value'];
+              total = (subTotal! - valueCoupon);
+            }else{
+              error='No cumple con las condiciones';
+            }
           }
           break;
+        default: {
+          total=total;
+        }
       }
-    }
+
   }
 
-  void validateTypeCoupon() {}
+  void calculateTotalWithCoupon(int subtotal,Map<String,dynamic> coupon){
+
+
+
+  }
+
+  void validateCoupon() {
+
+
+
+  }
 }

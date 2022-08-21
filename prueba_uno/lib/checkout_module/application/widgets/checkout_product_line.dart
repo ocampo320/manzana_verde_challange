@@ -2,7 +2,7 @@ import 'package:badges/badges.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../../product_module/product.dart';
+import '../../../product_module/product_page.dart';
 import '../../../product_module/models/product.dart';
 
 class CheckoutProductLine extends StatelessWidget {

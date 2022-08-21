@@ -45,7 +45,7 @@ class FinderCoupon extends StatelessWidget {
               child: ElevatedButton(
                 onPressed: () {
                   cart.getCoupon(CheckoutInputController.tc.text);
-                  cart. calculateTotal();
+
                 },
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
