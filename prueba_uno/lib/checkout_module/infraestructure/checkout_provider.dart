@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../models/coupon.dart';
-import '../../product_module/product_page.dart';
-import 'services/services.dart';
 import '../../product_module/models/product.dart';
+import '../models/coupon.dart';
+import 'services/services.dart';
 
 
 class CatalogCartAndCheckout extends ChangeNotifier {
@@ -13,7 +12,7 @@ class CatalogCartAndCheckout extends ChangeNotifier {
   int? sum;
   String _error='';
 
-  String  get error => _error;
+  String get error => _error;
 
   set error(String value) {
     _error = value;
@@ -23,9 +22,17 @@ class CatalogCartAndCheckout extends ChangeNotifier {
   double? _subTotal;
   double _couponDiscount = 0;
   int _deliveryCost = 0;
-  double? _total ;
-  double  _couponPercentage=0;
+  double? _total;
+
+  double _couponPercentage = 0;
   dynamic _valueCoupon;
+  int? _newQuantity;
+
+  int? get newQuantity => _newQuantity;
+
+  set newQuantity(int? value) {
+    _newQuantity = value;
+  }
 
   dynamic get valueCoupon => _valueCoupon;
 
@@ -165,14 +172,28 @@ class CatalogCartAndCheckout extends ChangeNotifier {
 //Calcular subtotal de la lista de prodcutos.
   void calculateSubtotal() {
     int? subtotalForProduct = 0;
-    subTotal = 0;
     for (var element in products) {
       if (element.selected == 1) {
-        subtotalForProduct = element.price! * element.quantity!;
-        subTotal = subTotal! + subtotalForProduct;
+        validatePromotion(element);
       }
     }
   }
+
+  ///Valida si el producto es de promicion y hace el
+  /// calculo restando una unidad a la cantidad
+  void validatePromotion(Product product) {
+    int? subtotalForProduct = 0;
+    subTotal = 0;
+    if (product.promotion!) {
+      subtotalForProduct = product.price! * (product.quantity! - 1);
+      subTotal = subTotal! + subtotalForProduct;
+    } else {
+      subtotalForProduct = product.price! * product.quantity!;
+      subTotal = subTotal! + subtotalForProduct;
+    }
+  }
+
+
 
   ///Calcula el valor del descuento por cupon segun su tipo
   ///PORCENTAJE
@@ -185,36 +206,25 @@ class CatalogCartAndCheckout extends ChangeNotifier {
               valueCoupon = ((subtotal * (_cupon!['payload']['value'] / 100))) ;
               total = (subTotal! - valueCoupon);
             }else{
-              error='No cumple con las condiciones';
-            }
+              error = 'No cumple con las condiciones';
+          }
           }
           break;
-        case 'FIJO':
-          {
-            if(subtotal>=_cupon!['payload']['minimum']){
-              valueCoupon = _cupon!['payload']['value'];
-              total = (subTotal! - valueCoupon);
-            }else{
-              error='No cumple con las condiciones';
-            }
+      case 'FIJO':
+        {
+          if (subtotal >= _cupon!['payload']['minimum']) {
+            valueCoupon = _cupon!['payload']['value'];
+            total = (subTotal! - valueCoupon);
+          } else {
+            error = 'No cumple con las condiciones';
           }
-          break;
-        default: {
-          total=total;
         }
-      }
-
+        break;
+      default:
+        {
+          total = total;
+        }
+    }
   }
 
-  void calculateTotalWithCoupon(int subtotal,Map<String,dynamic> coupon){
-
-
-
-  }
-
-  void validateCoupon() {
-
-
-
-  }
 }
