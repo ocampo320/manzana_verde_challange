@@ -10,7 +10,7 @@ class CatalogCartAndCheckout extends ChangeNotifier {
   List<Product> products = [];
   Coupon? coupon;
   int? sum;
-  String _error='';
+  String _error = '';
 
   String get error => _error;
 
@@ -63,7 +63,7 @@ class CatalogCartAndCheckout extends ChangeNotifier {
     _couponPermanent = value;
   }
 
-  double ?get total => _total;
+  double? get total => _total;
 
   set total(double? value) {
     _total = value;
@@ -120,6 +120,7 @@ class CatalogCartAndCheckout extends ChangeNotifier {
     product.quantity = product.quantity! - 1;
     var count = products.where((element) => element.selected == 1);
     sum = count.length;
+    print('producto removed');
     notifyListeners();
   }
 
@@ -130,29 +131,26 @@ class CatalogCartAndCheckout extends ChangeNotifier {
     }
   }
 
- void  calculateTotal() {
-    if(_cupon!=null){
+  void calculateTotal() {
+    if (_cupon != null) {
       calculateCoupon(subTotal!);
     }
   }
-  void calculateTotalOutCoupon(){
-    total=(subTotal);
-  }
 
+  void calculateTotalOutCoupon() {
+    total = (subTotal);
+  }
 
   getCoupon(String code) async {
     error = '';
-    cupon= await Services().getCoupon(code);
+    cupon = await Services().getCoupon(code);
     cupon = cupon["result"];
-   calculateTotal();
+    calculateTotal();
     if (cupon != null) {
       coupon = Coupon.fromJson(cupon);
-
     } else {
       error = "El cupón no existe";
-
     }
-
   }
 
   clearCart() {
@@ -171,53 +169,64 @@ class CatalogCartAndCheckout extends ChangeNotifier {
 
 //Calcular subtotal de la lista de prodcutos.
   void calculateSubtotal() {
-    int? subtotalForProduct = 0;
+    subTotal = 0;
     for (var element in products) {
       if (element.selected == 1) {
-        validatePromotion(element);
+        if (element.match != null ) {
+          print(subTotal.toString());
+          validatePromotion(findMatch(element)!);
+        } else {
+          validatePromotion(element);
+          print(subTotal.toString());
+        }
       }
     }
+
   }
 
-  ///Valida si el producto es de promicion y hace el
+  ///Valida si el producto es de promocion y hace el
   /// calculo restando una unidad a la cantidad
   void validatePromotion(Product product) {
-    int? subtotalForProduct = 0;
-    subTotal = 0;
-    if (product.promotion!) {
+    int subtotalForProduct = 0;
+    // subTotal = 0;
+    if (product.promotion! && product.quantity!>2 ) {
       subtotalForProduct = product.price! * (product.quantity! - 1);
-      subTotal = subTotal! + subtotalForProduct;
+      subTotal = subTotal??0.0 + subtotalForProduct;
+      print(subTotal);
     } else {
       subtotalForProduct = product.price! * product.quantity!;
-      subTotal = subTotal! + subtotalForProduct;
+      subTotal = subTotal??0.0 + subtotalForProduct;
+      print(subTotal);
     }
   }
-
-
 
   ///Calcula el valor del descuento por cupon segun su tipo
   ///PORCENTAJE
   ///FIJO
   void calculateCoupon(double subtotal) {
-      switch (_cupon!['code']) {
-        case 'PORCENTAJE':
-          {
-            if(subtotal>=_cupon!['payload']['minimum']){
-              valueCoupon = ((subtotal * (_cupon!['payload']['value'] / 100))) ;
-              total = (subTotal! - valueCoupon);
-            }else{
-              error = 'No cumple con las condiciones';
-          }
-          }
-          break;
-      case 'FIJO':
+    switch (_cupon!['code']) {
+      case 'PORCENTAJE':
         {
           if (subtotal >= _cupon!['payload']['minimum']) {
-            valueCoupon = _cupon!['payload']['value'];
+            valueCoupon = ((subtotal * (_cupon!['payload']['value'] / 100)));
             total = (subTotal! - valueCoupon);
           } else {
             error = 'No cumple con las condiciones';
           }
+          print('PORCENTAJE');
+        }
+        break;
+      case 'FIJO':
+        {
+          if (subtotal >= _cupon!['payload']['minimum']) {
+            valueCoupon = _cupon!['payload']['value'];
+            total = (subTotal??0.0 - valueCoupon);
+            print(total);
+          } else {
+
+            error = 'No cumple con las condiciones';
+          }
+          print('FIJO   ');
         }
         break;
       default:
@@ -227,4 +236,29 @@ class CatalogCartAndCheckout extends ChangeNotifier {
     }
   }
 
+  Product? findMatch(Product product) {
+    double discount;
+    Product? p;
+    if (product.match != null) {
+      for (var match in product.match!) {
+        for (var productToProduct in products) {
+          if (productToProduct.selected == 1 && match == productToProduct.id) {
+            discount = product.price! * 10 / 100;
+            p = Product(
+                product.selected,
+                product.id,
+                product.name,
+                product.image,
+                product.price! - discount.toInt(),
+                product.quantity,
+                product.promotion,
+                product.match);
+          }
+        }
+      }
+
+      return p;
+    }
+    return p;
+  }
 }

@@ -57,9 +57,9 @@ class FinderCoupon extends StatelessWidget {
             ),
           ],
         ),
-        if (cart.error != null)
+        if (cart.error.isNotEmpty)
           Text(
-            cart.error!,
+            cart.error,
             style: const TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w600,
