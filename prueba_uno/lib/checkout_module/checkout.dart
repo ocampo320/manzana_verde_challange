@@ -79,6 +79,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                 ),
                 const Divider(height: 50),
                 PayButton(
+                  key: const Key( 'btn_pay'),
                   cart: cart,
                 )
               ],

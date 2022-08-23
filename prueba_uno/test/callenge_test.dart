@@ -1,4 +1,8 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:separate_api/checkout_module/application/widgets/pay_button.dart';
+import 'package:separate_api/checkout_module/checkout.dart';
 import 'package:separate_api/checkout_module/infraestructure/checkout_provider.dart';
 import 'package:separate_api/product_module/models/product.dart';
 
@@ -7,6 +11,7 @@ void main() {
   late Product product;
   late Map<String, dynamic> couponsDb;
   late CatalogCartAndCheckout catalogCartAndCheckout;
+  late Widget sut;
 
   setUp(() async {
     products = [
@@ -28,6 +33,8 @@ void main() {
       },
     };
     catalogCartAndCheckout = CatalogCartAndCheckout();
+
+    sut= Scaffold(body:CheckoutPage() );
   });
 
   test('removeProduct', () async {
@@ -54,5 +61,11 @@ void main() {
       },
     };
     catalogCartAndCheckout.calculateCoupon(700);
+  });
+  
+  testWidgets('description', (WidgetTester tester)async{
+await tester.pumpWidget(sut);
+   
+    
   });
 }
