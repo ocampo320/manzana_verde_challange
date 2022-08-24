@@ -12,6 +12,7 @@ final Product product;
   Widget build(BuildContext context) {
     return  Center(
       child: ElevatedButton(
+        key: const Key('challenge_add_btn'),
         onPressed: () {
           var count = appController.products
               .where((element) => element.selected == 1);

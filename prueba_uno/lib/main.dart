@@ -6,10 +6,10 @@ import 'package:separate_api/home_module/home.dart';
 
 import 'checkout_module/infraestructure/checkout_provider.dart';
 
-void main() {
-  runApp(const MyApp());
-}
 
+
+
+void main() => runApp(const MyApp());
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 

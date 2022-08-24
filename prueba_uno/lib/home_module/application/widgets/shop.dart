@@ -18,11 +18,12 @@ class _ShopSectionState extends State<ShopSection> {
     return Consumer<CatalogCartAndCheckout>(
       builder: (context, catalog, child) {
         return ListView(
+          key: const Key('challenge_shop_list_product'),
           padding: const EdgeInsets.all(20),
           children: catalog.products.map((e) {
             return Container(
               margin: const EdgeInsets.only(bottom: 10),
-              child: ProductW(product: e),
+              child: ProductW(product: e,key: const Key('challenge_shop_prodcutW')),
             );
           }).toList(),
         );

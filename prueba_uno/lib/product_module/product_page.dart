@@ -74,6 +74,7 @@ class ProductW extends StatelessWidget {
                     appController: appController,
                   )
                 : ProductButton(
+              key: const Key('challenge_add_btn'),
                     appController: appController,
                     product: product,
                   ),

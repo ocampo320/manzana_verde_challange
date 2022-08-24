@@ -63,9 +63,5 @@ void main() {
     catalogCartAndCheckout.calculateCoupon(700);
   });
   
-  testWidgets('description', (WidgetTester tester)async{
-await tester.pumpWidget(sut);
-   
-    
-  });
+
 }

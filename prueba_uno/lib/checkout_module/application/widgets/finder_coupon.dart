@@ -1,4 +1,6 @@
-import 'package:flutter/cupertino.dart';
+
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 
 import '../../infraestructure/checkout_input_controller.dart';
@@ -25,6 +27,10 @@ class FinderCoupon extends StatelessWidget {
               child: SizedBox(
                 height: 50,
                 child: TextField(
+                  onChanged: (value){
+                    print(value);
+                  },
+                  key: const Key('challenge_checkout_input_coupon'),
                   controller:CheckoutInputController.tc,
                   decoration: InputDecoration(
                     hintText: "Cupón",
@@ -43,11 +49,15 @@ class FinderCoupon extends StatelessWidget {
             SizedBox(
               height: 50,
               child: ElevatedButton(
+                key: const Key('challenge_checkout_btn_apply'),
                 onPressed: () {
+                  print('Press btn apply coupon');
                   cart.getCoupon(CheckoutInputController.tc.text);
+
 
                 },
                 style: ElevatedButton.styleFrom(
+
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   ),

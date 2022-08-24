@@ -6,6 +6,7 @@ import 'package:separate_api/product_module/product_page.dart';
 import 'package:separate_api/home_module/application/widgets/shop.dart';
 
 import '../checkout_module/infraestructure/checkout_provider.dart';
+
 import '../product_module/models/product.dart';
 
 class HomePage extends StatefulWidget {
@@ -20,6 +21,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     List<Product> productos = Provider.of<CatalogCartAndCheckout>(context).products;
     productos = productos.where((element) => element.selected == 1).toList();
+
     bool showBadge = productos.isNotEmpty;
     return Scaffold(
       appBar: AppBar(
@@ -39,13 +41,14 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             child: IconButton(
+              key: const Key('challenge_home_cart_btn'),
               onPressed: () => Navigator.of(context).pushNamed("/checkout"),
               icon: const Icon(Icons.shopping_cart),
             ),
           )
         ],
       ),
-      body: const ShopSection(),
+      body: const ShopSection(key: Key('challenge_shop_section')),
     );
   }
 
